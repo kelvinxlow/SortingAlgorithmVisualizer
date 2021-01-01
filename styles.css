@@ -1,0 +1,34 @@
+body{
+    background-color: rgb(34, 136, 196);
+}
+h1{
+    color: black;
+    background-color: paleturquoise;
+    font-size: 5vw;
+    text-align: center; 
+    margin: 3%;
+    padding: 1vw;
+    font-family: 'Courier New', Courier, monospace;
+}
+button{
+    background-color: paleturquoise;
+    font-size: 2vw;
+    margin: 0vw 1.2vw 0vw;
+    padding: 0.5vw;
+    border-color: black;
+}
+canvas{
+    background-color: paleturquoise;
+    padding-left:0;
+    padding-right:0;
+    margin-top: 3%;
+    margin-bottom: 3%;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    width: 80%;
+    height:80%;
+}
+.center{
+    text-align: center;
+}
