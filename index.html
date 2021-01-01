@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sorting Visualizer</title>
+    <link rel = "stylesheet" href = "styles.css">
+</head>
+</html>
+<body>
+    <h1>
+        Sorting Visualizer
+    </h1>
+    
+    <div class="center">
+        <button onclick = "numBars()">Array Size</button>
+        <button onclick = "generateArray()">Generate Array</button>
+        <button onclick = "bubbleSort()">Bubble Sort</button>
+        <button onclick = "insertionSort()">Insertion Sort</button>
+        <button onclick = "quickSort(0, values.length - 1)">Quick Sort</button>
+        <button onclick = "selectionSort()">Selection Sort</button>
+    </div>
+   
+
+    <canvas id = "myCanvas"></canvas>
+    
+    <script>
+    var values =[500];
+    var arraySize = 10;
+    var c; 
+    var ctx;
+    function numBars (){
+        do{
+            var bars = prompt("Enter the number of values to sort (1-100)","10");
+        }
+        while (bars<1||bars>100);
+        arraySize = bars;
+        generateArray();
+
+    }
+
+    function generateArray (){
+        values=[];
+        for (var i = 0 ; i < arraySize; i ++){
+            values.push(Math.floor(Math.random()*(300)) +1);
+        }  
+        draw();      
+    }
+
+    async function bubbleSort(){
+        var sorted, temp;
+        for (var i = 0; i < values.length - 1; i++)
+        {
+            sorted = true;
+            for (var j = 0 ; j < values.length - i - 1; j++)
+            {
+                if (values [j] > values [j + 1])
+                {
+                    temp = values[j];
+                    values[j] = values[j + 1];
+                    values[j + 1] = temp;
+                    sorted = false;
+                    await sleep (2);
+                    draw();
+                }         
+            }
+            if (sorted)
+                break;
+        }
+    }
+    async function insertionSort() {
+        var replacement, j;
+        for (var i = 1 ; i < values.length ; i++) 
+        {
+            replacement = values [i];
+            j = i - 1;
+            while (j >= 0 && values [j] > replacement)
+            {
+                values [j + 1] = values [j];
+                j--;
+                await sleep (20);
+                draw();
+            }
+            values [j + 1] = replacement;
+            await sleep (20);
+            draw();
+        }
+    }
+
+    async function quickSort(low, high) {
+        var pivot, left, right;
+        if (low < high)
+        {
+            pivot = values[low];
+            left = low;
+            right = high;
+
+            while (left < right)
+            {
+                while (values[right] >= pivot && left < right)
+                {
+                    right--;
+                }
+                values[left] = values[right];
+                draw ();
+                await sleep (20);
+                while (values[left] < pivot && left < right)
+                {
+                    left++;
+                }
+                values[right] = values[left];
+                draw ();
+                await sleep (20);
+            }
+            values[left] = pivot;
+            await sleep (20)
+            draw();
+            quickSort(low, left - 1);
+            quickSort(right + 1, high);
+        }
+    }
+    
+    async function selectionSort(){
+        var temp, minIndex;
+        for (var i = 0 ; i < values.length - 1 ; i ++) 
+        {
+            minIndex = i;
+            for (var j = i ; j < values.length ; j++)
+            {
+                if (values [j] < values [minIndex])
+                {
+                    minIndex = j;
+                }
+            }
+            temp = values [i];
+            values [i] = values [minIndex];
+            values [minIndex] = temp;
+            draw ();
+            await sleep (200);
+        }
+    }
+
+    function draw() {       
+        c = document.getElementById("myCanvas");
+        ctx = c.getContext("2d");
+        ctx.canvas.width  = window.innerWidth;
+        ctx.canvas.height = window.innerHeight;
+        
+            ctx.clearRect(0,0,c.width, c.height);
+            for (var i = 0; i< values.length; i ++ ){
+                ctx.beginPath();
+                ctx.strokeStyle = "gray";
+                ctx.rect(((c.width-50)/values.length)*i+25,25,((c.width-50)/values.length),((c.height-50)/300)*values[i]);
+                ctx.fillStyle = "white";
+                ctx.fill();
+                ctx.stroke();
+            }
+    }
+
+    function sleep(ms) {
+        return new Promise (resolve => setTimeout(resolve, ms));
+    }
+
+    </script>
+</body>
